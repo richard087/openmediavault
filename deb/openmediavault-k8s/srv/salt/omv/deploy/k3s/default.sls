@@ -330,12 +330,25 @@ create_k3s_local_storage_manifest:
 
 {% if k8s_config.enable | to_bool %}
 
+{% if k8s_config.etcddatastore | to_bool %}
+
+install_k3s:
+  cmd.run:
+    - name: set -o pipefail; wget -O - https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_VERSION='{{ k3s_version }}' INSTALL_K3S_EXEC="--cluster-init" sh -
+    - shell: /usr/bin/bash
+    - onlyif: "! which k3s || test -e /var/lib/openmediavault/upgrade_k3s"
+    - failhard: True
+
+{% else %}
+
 install_k3s:
   cmd.run:
     - name: set -o pipefail; wget -O - https://get.k3s.io | INSTALL_K3S_SKIP_ENABLE=true INSTALL_K3S_VERSION='{{ k3s_version }}' sh -
     - shell: /usr/bin/bash
     - onlyif: "! which k3s || test -e /var/lib/openmediavault/upgrade_k3s"
     - failhard: True
+
+{% endif %}
 
 remove_k3s_upgrade_flag:
   file.absent:

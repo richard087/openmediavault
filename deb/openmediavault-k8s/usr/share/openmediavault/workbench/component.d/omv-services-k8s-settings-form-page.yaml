@@ -15,6 +15,11 @@ data:
         name: enable
         label: _("Enabled")
         value: false
+      - type: checkbox
+        name: etcddatastore
+        label: _("Use etcd as the cluster datastore")
+        hint: _("etcd allows multi-node k3s clusters. If not set, sqlite backend is used.")
+        value: true
       - type: sharedFolderSelect
         name: etcdsnapshots_sharedfolderref
         label: _("Snapshots")

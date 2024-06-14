@@ -29,6 +29,7 @@ set -e
 #   <services>
 #     <k8s>
 #     	<enable>0</enable>
+#       <etcddatastore>1</etcddatastore>
 #     	<webport>8080</webport>
 #     	<websecureport>8443</websecureport>
 #     	<dashboardport>4443</dashboardport>

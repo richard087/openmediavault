@@ -11,6 +11,10 @@
 			"type": "boolean",
 			"default": false
 		},
+		"etcddatastore": {
+            "type": "boolean",
+            "default": true
+        },
 		"webport": {
 			"type": "integer",
 			"minimum": 1,
