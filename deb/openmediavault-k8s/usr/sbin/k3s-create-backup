@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -e
+
+. /usr/share/openmediavault/scripts/helper-functions
+
+sfref=$(omv_config_get "/config/services/k8s/etcdsnapshots_sharedfolderref")
+sfpath=$(omv_get_sharedfolder_path ${sfref})
+
+cd /var/lib/rancher/k3s/server
+zip -qr ${sfpath}/snapshot-$(date +%s) token db/*
+
+cd ${sfpath}
+# Keep 5 newest files from https://stackoverflow.com/a/34862475
+ls -tp | grep -v '/$' | tail -n +6 | xargs -I {} rm -- {}
+
+exit 0
