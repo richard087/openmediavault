@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+
+import os
+import json
+import openmediavault.config
+
+db = openmediavault.config.Database()
+k8s = db.get("conf.service.k8s")
+sf = db.get("conf.system.sharedfolder", k8s.get("etcdsnapshots_sharedfolderref"))
+mp = db.get('conf.system.filesystem.mountpoint', sf.get('mntentref'))
+
+k3s_snapshots_dir = os.path.join(mp.get("dir"), sf.get("reldirpath"))
+
+
+items = []
+for f in os.scandir(k3s_snapshots_dir):
+  spec = {"snapshotName" : f.name}
+  metadata = {"creationTimestamp" : f.stat().st_ctime}
+  status = {"size": f.stat().st_size, "readyToUse" : True}
+  items.append({"spec": spec, "metadata" : metadata, "status": status})
+
+json_string = json.dumps({ "items": items})
+print(json_string)
