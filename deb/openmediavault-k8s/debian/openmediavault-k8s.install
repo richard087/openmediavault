@@ -1,4 +1,5 @@
 etc/* etc/
 srv/* srv/
+usr/sbin/* /usr/sbin/
 usr/share/openmediavault/* usr/share/openmediavault/
 usr/share/php/openmediavault/* usr/share/php/openmediavault/
